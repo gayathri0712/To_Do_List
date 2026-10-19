@@ -1,144 +1,191 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskFlow Pro</title>
+    <meta name="theme-color" content="#6366f1">
+    <title>TaskFlow Pro | Smart Task Manager</title>
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+<div class="app-container">
 
-    <header>
+    <aside class="sidebar">
+        <a class="brand" href="#">
+            <span class="brand-icon"><i class="fa-solid fa-bolt"></i></span>
+            <span>TaskFlow<span class="brand-light"> Pro</span></span>
+        </a>
 
-        <h1>
-            <i class="fa-solid fa-list-check"></i>
-            TaskFlow Pro
-        </h1>
+        <p class="nav-label">WORKSPACE</p>
 
-        <button id="themeBtn">
-            <i class="fa-solid fa-moon"></i>
-        </button>
+        <nav class="navigation">
+            <button class="nav-item active" data-filter="all">
+                <i class="fa-solid fa-border-all"></i> All Tasks
+                <span id="navTotal">0</span>
+            </button>
+            <button class="nav-item" data-filter="pending">
+                <i class="fa-regular fa-circle"></i> My Tasks
+            </button>
+            <button class="nav-item" data-filter="completed">
+                <i class="fa-solid fa-circle-check"></i> Completed
+            </button>
+        </nav>
 
-    </header>
+        <div class="sidebar-bottom">
+            <div class="sidebar-tip">
+                <i class="fa-solid fa-lightbulb"></i>
+                <h3>Stay focused!</h3>
+                <p>Small steps every day lead to big results.</p>
+            </div>
 
-    <!-- Add Task -->
-
-    <div class="task-box">
-
-        <input
-            type="text"
-            id="taskInput"
-            placeholder="Enter a new task">
-
-        <select id="priority">
-            <option value="High">🔴 High</option>
-            <option value="Medium">🟠 Medium</option>
-            <option value="Low">🟢 Low</option>
-        </select>
-
-        <input
-            type="date"
-            id="dueDate">
-
-        <button id="addBtn">
-            <i class="fa-solid fa-plus"></i>
-            Add
-        </button>
-
-    </div>
-
-    <!-- Search -->
-
-    <div class="search-box">
-
-        <input
-            type="text"
-            id="search"
-            placeholder="Search tasks...">
-
-    </div>
-
-    <!-- Statistics -->
-
-    <div class="stats">
-
-        <div class="card">
-            <h2 id="totalTasks">0</h2>
-            <p>Total Tasks</p>
+            <button id="themeBtn" class="theme-button">
+                <i class="fa-solid fa-moon"></i>
+                <span>Dark mode</span>
+            </button>
         </div>
+    </aside>
 
-        <div class="card">
-            <h2 id="completedTasks">0</h2>
-            <p>Completed</p>
-        </div>
+    <main class="main-content">
 
-        <div class="card">
-            <h2 id="pendingTasks">0</h2>
-            <p>Pending</p>
-        </div>
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+                <h1>Task Dashboard <span>✦</span></h1>
+                <p class="subtitle">Plan smart. Work better. Achieve more.</p>
+            </div>
+            <div class="date-display">
+                <i class="fa-regular fa-calendar"></i>
+                <span id="todayDate"></span>
+            </div>
+        </header>
 
-    </div>
+        <section class="stats-grid">
+            <article class="stat-card">
+                <div class="stat-icon purple"><i class="fa-solid fa-layer-group"></i></div>
+                <p>Total Tasks</p>
+                <h2 id="totalTasks">0</h2>
+                <span class="stat-note">All your tasks</span>
+            </article>
 
-    <!-- Progress -->
+            <article class="stat-card">
+                <div class="stat-icon green"><i class="fa-solid fa-check-double"></i></div>
+                <p>Completed</p>
+                <h2 id="completedTasks">0</h2>
+                <span class="stat-note">Tasks finished</span>
+            </article>
 
-    <div class="progress-container">
+            <article class="stat-card">
+                <div class="stat-icon orange"><i class="fa-solid fa-hourglass-half"></i></div>
+                <p>Pending</p>
+                <h2 id="pendingTasks">0</h2>
+                <span class="stat-note">Still in progress</span>
+            </article>
 
-        <div class="progress-bar">
+            <article class="stat-card">
+                <div class="stat-icon red"><i class="fa-solid fa-calendar-xmark"></i></div>
+                <p>Overdue</p>
+                <h2 id="overdueTasks">0</h2>
+                <span class="stat-note">Past due date</span>
+            </article>
+        </section>
 
-            <div id="progress"></div>
+        <section class="progress-panel">
+            <div class="progress-heading">
+                <div>
+                    <h3><i class="fa-solid fa-chart-line"></i> Your productivity</h3>
+                    <p>Every completed task is progress.</p>
+                </div>
+                <strong id="progressText">0%</strong>
+            </div>
+            <div class="progress-bar">
+                <div id="progress"></div>
+            </div>
+        </section>
 
-        </div>
+        <section class="task-panel">
+            <div class="section-heading">
+                <div>
+                    <h2><i class="fa-solid fa-list-check"></i> Manage Tasks</h2>
+                    <p>Create and organize your daily work.</p>
+                </div>
+                <button id="clearAll" class="clear-button">
+                    <i class="fa-regular fa-trash-can"></i> Clear All
+                </button>
+            </div>
 
-        <p id="progressText">
-            0% Completed
-        </p>
+            <form id="taskForm" class="task-form">
+                <div class="field-group task-name-field">
+                    <label for="taskInput">Task name</label>
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-pen"></i>
+                        <input id="taskInput" type="text" maxlength="200"
+                               placeholder="What needs to be done?" required>
+                    </div>
+                </div>
 
-    </div>
+                <div class="field-group">
+                    <label for="priority">Priority</label>
+                    <select id="priority">
+                        <option value="High">🔴 High</option>
+                        <option value="Medium" selected>🟠 Medium</option>
+                        <option value="Low">🟢 Low</option>
+                    </select>
+                </div>
 
-    <!-- Filters -->
+                <div class="field-group">
+                    <label for="dueDate">Due date</label>
+                    <input id="dueDate" type="date">
+                </div>
 
-    <div class="filters">
+                <button id="addBtn" type="submit">
+                    <i class="fa-solid fa-plus"></i> Add Task
+                </button>
+            </form>
 
-        <button
-            class="filter active"
-            data-filter="all">
-            All
-        </button>
+            <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
 
-        <button
-            class="filter"
-            data-filter="completed">
-            Completed
-        </button>
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input id="search" type="search" placeholder="Search your tasks...">
+                </div>
 
-        <button
-            class="filter"
-            data-filter="pending">
-            Pending
-        </button>
+                <select id="priorityFilter" aria-label="Filter by priority">
+                    <option value="all">All priorities</option>
+                    <option value="High">High priority</option>
+                    <option value="Medium">Medium priority</option>
+                    <option value="Low">Low priority</option>
+                </select>
 
-        <button id="clearAll">
-            Clear All
-        </button>
+                <select id="sortTasks" aria-label="Sort tasks">
+                    <option value="newest">Newest first</option>
+                    <option value="oldest">Oldest first</option>
+                    <option value="due">Due date</option>
+                    <option value="priority">Highest priority</option>
+                </select>
+            </div>
 
-    </div>
+            <div class="list-heading">
+                <h3>Your task list</h3>
+                <span id="resultCount">0 tasks</span>
+            </div>
 
-    <!-- Task List -->
+            <ul id="taskList" aria-live="polite"></ul>
+        </section>
 
-    <ul id="taskList"></ul>
+        <footer>
+            <p>Made for better productivity <span>♥</span> with TaskFlow Pro</p>
+        </footer>
 
+    </main>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
